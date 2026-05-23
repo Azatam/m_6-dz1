@@ -1,16 +1,40 @@
-# React + Vite
+# React Shop (Refactoring Project)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Описание
+Учебный проект интернет-магазина на React с использованием TanStack Query и Zustand.
 
-Currently, two official plugins are available:
+## Стек технологий
+- React
+- React Router
+- TanStack Query
+- Zustand
+- Axios
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Функционал
 
-## React Compiler
+### Товары
+- Получение списка товаров с API
+- Детальная страница товара
+- Кеширование запросов (React Query)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Фильтры
+- Поиск по названию
+- Фильтр по категории
+- Фильтр по цене
+- Глобальные фильтры через Zustand
 
-## Expanding the ESLint configuration
+### Корзина
+- Добавление товаров
+- Удаление товаров
+- Очистка корзины
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Архитектура проекта
+
+- api/ — запросы к серверу
+- components/ — UI компоненты
+- pages/ — страницы приложения
+- store/ — Zustand store
+- hooks/ — кастомные хуки
+
+## Итог
+Проект был отрефакторен: код разделён по слоям, добавлено глобальное состояние и кеширование данных.

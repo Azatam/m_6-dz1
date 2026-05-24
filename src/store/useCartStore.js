@@ -14,12 +14,12 @@ export const useCartStore = create(
         if (exists) {
           set({
             items: items.map((i) =>
-              i.id === product.id ? { ...i, quantity: i.quantity + 1 } : i,
+              i.id === product.id ? { ...i, qty: i.qty + 1 } : i,
             ),
           });
         } else {
           set({
-            items: [...items, { ...product, quantity: 1 }],
+            items: [...items, { ...product, qty: 1 }],
           });
         }
       },

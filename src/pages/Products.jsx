@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { ProductCard } from "../components/ProductCard";
+import { fetchProducts } from "../api/fetchProducts";
 import { useProductStore } from "../store/productStore";
+import { ProductCard } from "../components/ProductCard";
 
 export const Products = () => {
   const {
@@ -16,61 +16,117 @@ export const Products = () => {
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["products"],
-    queryFn: async () => {
-      const response = await axios.get(
-        "https://api.escuelajs.co/api/v1/products",
-      );
-      return response.data;
-    },
+    queryFn: fetchProducts,
   });
 
-  if (isLoading) return <h1>Loading...</h1>;
-  if (isError) return <h1>Error...</h1>;
+  if (isLoading) {
+    return <h1 style={{ textAlign: "center", marginTop: 50 }}>Loading...</h1>;
+  }
 
-  const filteredProducts = data.filter((product) => {
-    const matchTitle = product.title
-      .toLowerCase()
-      .includes(search.toLowerCase());
+  if (isError) {
+    return (
+      <h1 style={{ textAlign: "center", marginTop: 50 }}>
+        Error loading products
+      </h1>
+    );
+  }
 
-    const matchCategory = category
-      ? product.category?.name?.toLowerCase().includes(category.toLowerCase())
-      : true;
-
-    const matchPrice = maxPrice ? product.price <= Number(maxPrice) : true;
-
-    return matchTitle && matchCategory && matchPrice;
+  const filtered = data.filter((p) => {
+    return (
+      p.title.toLowerCase().includes(search.toLowerCase()) &&
+      (!category ||
+        p.category?.toLowerCase().includes(category.toLowerCase())) &&
+      (!maxPrice || p.price <= Number(maxPrice))
+    );
   });
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Products</h1>
+    <div style={{ padding: 20, maxWidth: 1400, margin: "0 auto" }}>
+      <h1 style={{ marginBottom: 25 }}>Products</h1>
 
-      <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
+      {/* FILTERS */}
+      <div
+        style={{
+          display: "flex",
+          gap: 15,
+          marginBottom: 30,
+          flexWrap: "wrap",
+          alignItems: "center",
+          background: "#f5f5f5",
+          padding: 20,
+          borderRadius: 16,
+        }}
+      >
         <input
-          placeholder="Search"
+          placeholder="Search product..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          style={{
+            padding: "10px 15px",
+            borderRadius: 10,
+            border: "1px solid #ddd",
+            minWidth: 220,
+            fontSize: 16,
+            outline: "none",
+          }}
         />
 
         <input
-          placeholder="Category"
+          placeholder="Category..."
           value={category}
           onChange={(e) => setCategory(e.target.value)}
+          style={{
+            padding: "10px 15px",
+            borderRadius: 10,
+            border: "1px solid #ddd",
+            minWidth: 180,
+            fontSize: 16,
+            outline: "none",
+          }}
         />
 
         <input
           type="number"
-          placeholder="Max price"
+          placeholder="Max price..."
           value={maxPrice}
           onChange={(e) => setMaxPrice(e.target.value)}
+          style={{
+            padding: "10px 15px",
+            borderRadius: 10,
+            border: "1px solid #ddd",
+            width: 150,
+            fontSize: 16,
+            outline: "none",
+          }}
         />
 
-        <button onClick={resetFilters}>Reset</button>
+        <button
+          onClick={resetFilters}
+          style={{
+            padding: "10px 20px",
+            borderRadius: 10,
+            border: "none",
+            background: "black",
+            color: "white",
+            cursor: "pointer",
+            fontSize: 16,
+          }}
+        >
+          Reset
+        </button>
       </div>
 
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
-        {filteredProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
+      {/* PRODUCTS */}
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 20,
+          justifyContent: "center",
+        }}
+      >
+        {filtered.map((p) => (
+          <ProductCard key={p.id} product={p} />
         ))}
       </div>
     </div>

@@ -13,22 +13,34 @@ export const ProductCard = ({ product }) => {
         <Link to={`/products/${product.id}`}>
           <img
             alt={product.title}
-            src={product.images[0]}
+            src={product.thumbnail}
             style={{
               height: 200,
               objectFit: "cover",
+              width: "100%",
             }}
           />
         </Link>
       }
     >
-      <h3>{product.title}</h3>
+      <Link to={`/products/${product.id}`}>
+        <h3 style={{ margin: 0 }}>{product.title}</h3>
+      </Link>
 
-      <p>{product.price}$</p>
+      <p style={{ margin: "5px 0" }}>{product.price}$</p>
 
-      <p>{product.category?.name}</p>
+      <p style={{ color: "gray", fontSize: 12 }}>{product.category}</p>
 
-      <button onClick={() => addToCart(product)}>Add to cart</button>
+      <button
+        onClick={() => addToCart(product)}
+        style={{
+          marginTop: 10,
+          padding: "6px 10px",
+          cursor: "pointer",
+        }}
+      >
+        Add to cart
+      </button>
     </Card>
   );
 };

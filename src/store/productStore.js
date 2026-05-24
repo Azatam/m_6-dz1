@@ -8,19 +8,14 @@ export const useProductStore = create(
       category: "",
       maxPrice: "",
 
-      setSearch: (value) => set({ search: value }),
-      setCategory: (value) => set({ category: value }),
-      setMaxPrice: (value) => set({ maxPrice: value }),
+      setSearch: (v) => set({ search: v }),
+      setCategory: (v) => set({ category: v }),
+      setMaxPrice: (v) => set({ maxPrice: v }),
 
-      resetFilters: () =>
-        set({
-          search: "",
-          category: "",
-          maxPrice: "",
-        }),
+      resetFilters: () => set({ search: "", category: "", maxPrice: "" }),
     }),
     {
-      name: "product-filters", // ключ в localStorage
+      name: "product-filters",
     },
   ),
 );
